@@ -1,25 +1,34 @@
 import { useState, useEffect } from "react";
+import CardPage from "./CardPage";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import TitlePage from "./TitlePage";
+
 
 function App() {
-  const [count, setCount] = useState(0);
+  const axios = require('axios').default;
+
+  const [hiragana, setHiragana] = useState(null);
 
   useEffect(() => {
-    fetch("/hello")
+    fetch("/hiragana")
       .then((r) => r.json())
-      .then((data) => setCount(data.count));
+      .then((data) => setHiragana(data));
   }, []);
+  
 
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/testing">
-            <h1>Test Route</h1>
-          </Route>
+
           <Route path="/">
-            <h1>Page Count: {count}</h1>
+           <CardPage />
           </Route>
+
+          <Route path="/MainMenu">
+           <CardPage hiragana = {hiragana} />
+          </Route>
+
         </Switch>
       </div>
     </BrowserRouter>
