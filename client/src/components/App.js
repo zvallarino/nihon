@@ -7,13 +7,16 @@ import TitlePage from "./TitlePage";
 function App() {
   const axios = require('axios').default;
 
-  const [hiragana, setHiragana] = useState(null);
+  const [hiraganas, setHiragana] = useState(null);
 
-  useEffect(() => {
-    fetch("/hiragana")
-      .then((r) => r.json())
-      .then((data) => setHiragana(data));
-  }, []);
+  useEffect(()=>getHiragana(), []);
+
+  function getHiragana(){
+    axios.get('/hiraganas')
+    .then(res => setHiragana(res.data))
+    .catch(error => console.error(error));
+  }
+
   
 
   return (
@@ -22,11 +25,11 @@ function App() {
         <Switch>
 
           <Route path="/">
-           <CardPage />
+           {hiraganas?<CardPage hiraganas ={hiraganas} />:null}
           </Route>
 
           <Route path="/MainMenu">
-           <CardPage hiragana = {hiragana} />
+    
           </Route>
 
         </Switch>
