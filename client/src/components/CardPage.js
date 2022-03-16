@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import Card from "./Card";
-
+import CardHiragana from "./CardHiragana";
 function CardPage({hiraganas}) {
 
-  const hiraganaCards = hiraganas.map((hiragana)=><Card hiragana = {hiragana}/>)
+
+
+  const hiraganaCards = hiraganas.map((hiragana)=><CardHiragana hiragana = {hiragana}/>)
 
   return (
    <>
