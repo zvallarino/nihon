@@ -4,7 +4,7 @@ function CardPage({hiraganas}) {
 
 
 
-  const hiraganaCards = hiraganas.map((hiragana)=><CardHiragana hiragana = {hiragana}/>)
+  const hiraganaCards = hiraganas.map((hiragana,index)=><CardHiragana key = {hiragana.character} index = {index} hiragana = {hiragana}/>)
 
   return (
    <>
@@ -12,5 +12,7 @@ function CardPage({hiraganas}) {
    </>
   );
 }
+
+
 
 export default CardPage;
