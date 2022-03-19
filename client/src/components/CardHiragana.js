@@ -6,13 +6,14 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
 import useSound from 'use-sound';
-import aSound from "../sounds/1.mp3"
+
+const {allSounds} = require('./SoundPage.js');
 
 
 
-const card = (hiragana,handleClick,flipCard,play)=>{
+
+const card = (hiragana,handleClick,flipCard,play,index)=>{
   return(
   <React.Fragment>
     <CardContent onClick = {handleClick}>
@@ -25,19 +26,29 @@ const card = (hiragana,handleClick,flipCard,play)=>{
         {flipCard?hiragana.character:hiragana.soundAlpha}
         </Typography>
 
+        <Typography variant="h4" component="div">
+        {index+1}
+        </Typography>
+
+
     </CardContent>
-    <CardActions onClick = {play}>
+    <CardActions onClick = {()=>play({ id: 'firstSound'})}>
       <Button size="small">sound</Button>
     </CardActions>
   </React.Fragment>
   )
 }
 
-export default function CardHiragana({hiragana}) {
+export default function CardHiragana({hiragana,index}) {
 
-  
+
+
   const [flipCard,setFlipCard] = useState(false)
-  const [play] = useSound(aSound);
+  const [play] = useSound((allSounds[index]),{
+    sprite:{
+      firstSound: [0,500]
+    }
+  });
 
 
   const handleClick = (e) =>{
@@ -46,7 +57,7 @@ export default function CardHiragana({hiragana}) {
 
   return (
     <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">{card(hiragana,handleClick,flipCard,play)}</Card>
+      <Card variant="outlined">{card(hiragana,handleClick,flipCard,play,index,allSounds)}</Card>
     </Box>
   );
 }
