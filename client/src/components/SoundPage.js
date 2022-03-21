@@ -104,16 +104,6 @@ import Sound103 from "../sounds/103.mp3";
 import Sound104 from "../sounds/104.mp3";
 
 
-
-
-
-
-
-
-
-
-
-
 const allSounds = [
   Sound1,Sound2,Sound3,Sound4,Sound5,
   Sound6,Sound7, Sound8, Sound9, Sound10,

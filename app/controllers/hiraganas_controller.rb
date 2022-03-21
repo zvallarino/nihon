@@ -5,4 +5,9 @@ class HiraganasController < ApplicationController
     render json: hiraganas,status:200
   end 
 
+  def soundcategories
+    soundCats = Hiragana.soundCat
+    render json: soundCats, status: :ok
+  end
+
 end

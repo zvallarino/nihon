@@ -8,12 +8,25 @@ function App() {
   const axios = require('axios').default;
 
   const [hiraganas, setHiragana] = useState(null);
+  const [allSoundCats,setAllSoundCats] = useState(null);
 
-  useEffect(()=>getHiragana(), []);
+  useEffect(()=>init(), []);
+
+  function init(){
+    getSoundCats()
+    getHiragana()
+  }
 
   function getHiragana(){
     axios.get('/hiraganas')
     .then(res => setHiragana(res.data))
+    .catch(error => console.error(error));
+  }
+
+  
+  function getSoundCats(){
+    axios.get('/soundcategories')
+    .then(res => setAllSoundCats(res.data))
     .catch(error => console.error(error));
   }
 
@@ -25,7 +38,7 @@ function App() {
         <Switch>
 
           <Route path="/">
-           {hiraganas?<CardPage hiraganas ={hiraganas} />:null}
+           {hiraganas?<CardPage hiraganas ={hiraganas} allSoundCats = {allSoundCats}/>:null}
           </Route>
 
           <Route path="/MainMenu">
