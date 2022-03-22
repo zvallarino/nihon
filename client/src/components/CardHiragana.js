@@ -30,11 +30,12 @@ const card = (hiragana,handleClick,flipCard,play,index)=>{
         {index+1}
         </Typography>
 
+      </CardContent>
 
-    </CardContent>
     <CardActions onClick = {()=>play({ id: 'firstSound'})}>
       <Button size="small">sound</Button>
     </CardActions>
+
   </React.Fragment>
   )
 }
@@ -42,9 +43,8 @@ const card = (hiragana,handleClick,flipCard,play,index)=>{
 export default function CardHiragana({hiragana,index}) {
 
 
-
   const [flipCard,setFlipCard] = useState(false)
-  const [play] = useSound((allSounds[index]),{
+  const [play] = useSound((allSounds[hiragana.id-1]),{
     sprite:{
       firstSound: [0,500]
     }

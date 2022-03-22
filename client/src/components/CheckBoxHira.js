@@ -4,9 +4,9 @@ const CheckboxHira = ({sound, setCurrentlyChecked, currentlyChecked,index}) => {
   const [checked, setChecked] = useState(false);
 
 
+
   const handleChange = () => {
     createSetObject();
-    console.log(currentlyChecked)
     setChecked(!checked);
   };
 
@@ -25,8 +25,6 @@ const createSetObject = () => {
         <input type="checkbox" checked={checked} onChange={onChange} />
          {sound}
       </label>
-
-      <p>Is "My Value" checked? {checked.toString()}</p>
     </div>
   );
 };
