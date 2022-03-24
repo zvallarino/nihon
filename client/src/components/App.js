@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CardPage from "./CardPage";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import TitlePage from "./TitlePage";
+import Game from "./Game";
 
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
   const [hiraganas, setHiragana] = useState(null);
   const [allSoundCats,setAllSoundCats] = useState(null);
 
-  useEffect(()=>init(), []);
+  useEffect(()=>init(),[]);
 
   function init(){
     getSoundCats()
@@ -37,11 +38,15 @@ function App() {
       <div className="App">
         <Switch>
 
-          <Route path="/">
+          <Route path="/main">
            {hiraganas?<CardPage hiraganas ={hiraganas} allSoundCats = {allSoundCats}/>:null}
           </Route>
 
           <Route path="/MainMenu">
+          </Route>
+
+          <Route path="/game">
+            {hiraganas?<Game hiraganas ={hiraganas} allSoundCats = {allSoundCats}/>:null}
           </Route>
 
         </Switch>

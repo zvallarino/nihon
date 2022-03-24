@@ -10,9 +10,6 @@ import useSound from 'use-sound';
 
 const {allSounds} = require('./SoundPage.js');
 
-
-
-
 const card = (hiragana,handleClick,flipCard,play,index)=>{
   return(
   <React.Fragment>
