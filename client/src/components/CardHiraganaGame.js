@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -28,6 +28,10 @@ const card = (hiragana)=>{
 }
 
 export default function CardHiraganaGame({hiragana}) {
+
+  console.log(hiragana)
+  useEffect(()=>{},[hiragana])
+  
 
   const [flipCard,setFlipCard] = useState(false)
 
