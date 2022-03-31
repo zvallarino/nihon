@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useState,useRef, useEffect } from "react"
 import CardHiraganaGame from "./CardHiraganaGame"
 
 function Game({ hiraganas,arrayOfNumbers, numOfCards }) {
@@ -7,28 +7,19 @@ function Game({ hiraganas,arrayOfNumbers, numOfCards }) {
   const [points,setPoints] = useState(0)
   const [miss, setMisses] = useState(0)
   const [textinput, setText] = useState("")
-  const [currentIndexOfHiragana,setIndexHiragana] = useState(0)
-  const [currentIDofHiragana,setIDofHiragana] = useState(arrayOfNumbers[0])
-  const [currentHiragana, setCurrentHiragana] = useState(null)
+  const currentIndexRef = useRef(0)
+  const currentIDRef = useRef(arrayOfNumbers[0])
+  const currentHiragana = useRef(hiraganas[arrayOfNumbers[0]])
+  const [idState,setIDState] = useState(false)
 
-  useEffect(()=> init(),[])
+  useEffect(()=> init(),[idState])
 
   let copyOfHiraganas = {...hiraganas}
 
   function init(){
     copyOfHiraganas = {...hiraganas}
-    loopToFindHiragana(copyOfHiraganas);
   }
 
-  const incrementRandom = (numOfCards) => {
-    if(currentIndexOfHiragana >= numOfCards){
-      setIndexHiragana(0)
-      setIDofHiragana(arrayOfNumbers[0])
-    } else {
-      setIndexHiragana(dogs => dogs +=1)
-      setIDofHiragana(arrayOfNumbers[currentIndexOfHiragana])
-    }
-  }
 
   const handleChange = (e) =>  {
     setText(e.target.value)
@@ -43,22 +34,29 @@ function Game({ hiraganas,arrayOfNumbers, numOfCards }) {
   const loopToFindHiragana = (cardNumber,hira) => {
     for(let property in hira){
       if(hira[property].id === cardNumber){
-        setCurrentHiragana(hira[property])
+        currentHiragana.current = hira[property]
+        console.log("fired")
         return
       }
     }
   }
 
   const gameFunction = () => { 
-    console.log(currentHiragana)
-    if(currentHiragana.soundAlpha === textinput){
-      incrementRandom(numOfCards)
-      setPoints(dogs => dogs +=1)
-      loopToFindHiragana(copyOfHiraganas)
+    console.log(currentHiragana.current.soundAlpha)
+    if(currentHiragana.current.soundAlpha === textinput){
+      console.log(true)
+      setPoints(dogs => dogs + 1)
     }else{
-      incrementRandom(numOfCards)
-      setMisses(dogs => dogs +=1)
-      loopToFindHiragana(copyOfHiraganas)
+      console.log("incorrect")
+      setMisses(dogs => dogs + 1)
+    }
+    currentIndexRef.current =  currentIndexRef.current += 1;
+    if(arrayOfNumbers.length - 1 < currentIndexRef.current){
+      console.log('fired')
+      currentIndexRef.current = 0;
+      currentHiragana.current = copyOfHiraganas[currentIndexRef.current]
+    }else{
+      currentHiragana.current = copyOfHiraganas[currentIndexRef.current]
     }
   }
 
@@ -66,15 +64,13 @@ function Game({ hiraganas,arrayOfNumbers, numOfCards }) {
   return (
    <>
    <div>
-  
      {arrayOfNumbers}
   </div>
+  
   <div>
-  current index: {currentIndexOfHiragana}
+  current index: {currentIndexRef.current}
   </div>
-  <div>
-  current ID: {currentIDofHiragana}
-  </div>
+
   <div>
     {currentHiragana?currentHiragana.soundAlpha:null}
   </div>
@@ -88,7 +84,7 @@ function Game({ hiraganas,arrayOfNumbers, numOfCards }) {
 
   <div>
     {currentHiragana?
-    <CardHiraganaGame hiragana = {currentHiragana}/>:null}
+    <CardHiraganaGame hiragana = {currentHiragana.current}/>:null}
   </div>
       <form onSubmit={onSubmit}>
         <label>
