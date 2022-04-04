@@ -38,14 +38,20 @@ function App() {
 
   const cards = () => [...Array(numOfCards)].map((_, i) => randomIntFromInterval(min,max));
 
-  function randomIntFromInterval(min, max) { 
+  const randomIntFromInterval = () => { 
+    console.log("fired Z")
+    console.log(min)
     return Math.floor(Math.random() * (max - min + 1) + min)
   };
 
-  const handleID = () =>{
+  function handleID(){
     setNumbers(cards())
+    console.log(arrayOfNumbers)
   }
 
+  function tester(something){
+    return (something)
+  }
 
 
 
@@ -57,10 +63,18 @@ function App() {
         <Switch>
 
           <Route path="/main">
-           {hiraganas?<CardPage hiraganas ={hiraganas} allSoundCats = {allSoundCats}/>:null}
+            {hiraganas?
+            <CardPage
+            hiraganas ={hiraganas}
+            allSoundCats = {allSoundCats}
+            arrayOfNumbers = {arrayOfNumbers}
+            />:null}
           </Route>
 
           <Route path="/MainMenu">
+            <TitlePage
+             tester = {tester}
+            />
           </Route>
 
           <Route path="/game">
@@ -70,6 +84,12 @@ function App() {
               allSoundCats = {allSoundCats}
               arrayOfNumbers ={arrayOfNumbers}
               numOfCards = {numOfCards}
+              handleID = {handleID}
+              setMin = {setMin}
+              setMax = {setMax}
+              tester = {tester}
+              max = {max}
+              min = {min}
             />:null}
           </Route>
 
