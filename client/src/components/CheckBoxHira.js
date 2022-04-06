@@ -3,8 +3,6 @@ import React, { useState } from "react";
 const CheckboxHira = ({sound, setCurrentlyChecked, currentlyChecked,index}) => {
   const [checked, setChecked] = useState(false);
 
-
-
   const handleChange = () => {
     createSetObject();
     setChecked(!checked);

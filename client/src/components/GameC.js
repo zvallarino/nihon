@@ -1,20 +1,19 @@
 import { useState,useRef, useEffect } from "react"
 import CardHiraganaGame from "./CardHiraganaGame"
+import CardHiraganaGameC from "./CardHiraganaGameC"
 
-function Game({
+function GameC({
   hiraganas,arrayOfNumbers, 
   handleID, setMin, setMax,
-  min, max }) {
-  
+  min, max, outterFunction
+}) {
+
+  console.log(arrayOfNumbers[0])
 
   const [points,setPoints] = useState(0)
   const [currentStreak, setStreak] = useState(0)
   const [miss, setMisses] = useState(0)
   const [textinput, setText] = useState("")
-  
-  // Ref
-  const currentIndexRef = useRef(0)
-  const currentHiraganaRef = useRef(hiraganas[arrayOfNumbers[0]])
 
   // State
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,21 +21,10 @@ function Game({
 
   useEffect(()=> init(),[])
 
-  let copyOfHiraganas = {...hiraganas}
+  let copyOfHiraganas = [...hiraganas]
 
   function init(){
-    copyOfHiraganas = {...hiraganas}
-  }
-
-
-  const handleChange = (e) =>  {
-    setText(e.target.value)
-  }
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    gameFunction();
-    setText("");
+    copyOfHiraganas = [...hiraganas]
   }
 
   const newCardsFunction = () => {
@@ -67,13 +55,22 @@ function Game({
     }
   }
 
+  const mapOfOptions = () =>{
+    console.log(copyOfHiraganas)
+    console.log(arrayOfNumbers)
+    let temp = (copyOfHiraganas.filter(hira=>arrayOfNumbers.includes(hira.id)))
+    return temp.map(hira=><CardHiraganaGameC key = {`${hira.category}${hira.id}`} outterFunction = {outterFunction} currentHiragana = {currentHiragana} hiragana = {hira}/>)
+  }
+
+
 
 
 
   return (
    <>
-   <div>
-     {arrayOfNumbers}
+
+  <div>
+    {arrayOfNumbers}
   </div>
   
   <div>
@@ -83,6 +80,7 @@ function Game({
   <div>
     {currentHiragana?currentHiragana.soundAlpha:null}
   </div>
+
   <div>
   Hit Counter: {points}
   </div>
@@ -107,20 +105,19 @@ function Game({
 
   <div>
     {currentHiragana?
-    <CardHiraganaGame hiragana = {currentHiragana}/>:null}
+    <CardHiraganaGame hiragana = {currentHiragana}/>:
+    null}
   </div>
-      <form onSubmit={onSubmit}>
-        <label>
-          Name:
-          <input type="text" value={textinput} onChange={handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+
+  <div>
+    {currentHiragana?
+    mapOfOptions():null}
+  </div>
    </>
   );
 }
 
-export default Game;
+export default GameC;
 
 
 

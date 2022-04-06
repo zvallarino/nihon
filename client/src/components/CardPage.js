@@ -38,8 +38,6 @@ const fitlercards = (stateCopy) => {
 }
 }
 
-
-
 function MappingFunction(){
  let stateCopy = [...hiraganas];
  return fitlercards(stateCopy).map((hiragana,index)=><CardHiragana

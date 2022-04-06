@@ -29,8 +29,7 @@ const card = (hiragana)=>{
 
 export default function CardHiraganaGame({hiragana}) {
 
-  console.log(hiragana)
-  useEffect(()=>{},[hiragana])
+  useEffect(()=>{},[])
   
 
   const [flipCard,setFlipCard] = useState(false)

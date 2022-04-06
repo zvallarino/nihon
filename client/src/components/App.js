@@ -3,6 +3,7 @@ import CardPage from "./CardPage";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import TitlePage from "./TitlePage";
 import Game from "./Game";
+import GameC from "./GameC";
 
 
 function App() {
@@ -15,12 +16,23 @@ function App() {
   const [arrayOfNumbers, setNumbers] = useState(null)
   const [numOfCards, setNumberOfCards] = useState(10)
 
+  //
+
+  const [minC, setMinC] = useState(1)
+  const [maxC, setMaxC] = useState(11)
+  const [arrayOfNumbersC, setNumbersC] = useState(null)
+  const [numOfCardsC, setNumberOfCardsC] = useState(4)
+
+  //
+
+
   useEffect(()=>init(),[]);
 
   function init(){
-    getSoundCats()
+    getSoundCats();
     handleID();
-    getHiragana()
+    outterFunction();
+    getHiragana();
   }
 
   function getHiragana(){
@@ -37,41 +49,98 @@ function App() {
   }
 
   const cards = () => [...Array(numOfCards)].map((_, i) => randomIntFromInterval(min,max));
+  const chars = () => [...Array(numOfCardsC)].map((_, i) => randomIntFromInterval(minC,maxC));
 
-  function randomIntFromInterval(min, max) { 
-    return Math.floor(Math.random() * (max - min + 1) + min)
+  const randomIntFromInterval = (x,y) => { 
+    return Math.floor(Math.random() * (y - x + 1) + x)
   };
 
-  const handleID = () =>{
+  function handleID(){
     setNumbers(cards())
   }
 
+  function handleIDC(){
+    console.log(setNumbersC)
+    console.log(arrayOfNumbersC)
+    setNumbersC(chars())
+    console.log(arrayOfNumbersC)
+  }
 
-
-
+  const newRandom = (x,y,arr) => { 
+    if(arr.length > numOfCardsC-1){
+      return arr
+    }
+    let temp = Math.floor(Math.random() * (y - x + 1) + x)
+    if(arr.includes(temp)){
+      return newRandom(x,y,arr)
+    }else{
+      arr.push(temp)
+      return newRandom(x,y,arr)
+    }
+  }; 
   
+
+
+  const outterFunction = () =>{
+    const numbersArray = [];
+    setNumbersC(newRandom(minC,maxC,numbersArray))
+    return
+  }
+
+
 
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
 
-          <Route path="/main">
-           {hiraganas?<CardPage hiraganas ={hiraganas} allSoundCats = {allSoundCats}/>:null}
+        <Route path="/characters">
+            {hiraganas?
+            <GameC
+              hiraganas ={hiraganas}
+              allSoundCats = {allSoundCats}
+              arrayOfNumbers ={arrayOfNumbersC}
+              handleID = {handleIDC}
+              setMin = {setMinC}
+              setMax = {setMaxC}
+              min = {minC}
+              max = {maxC}
+              outterFunction = {outterFunction}
+            />:null}
           </Route>
 
-          <Route path="/MainMenu">
-          </Route>
-
-          <Route path="/game">
+        <Route path="/game">
             {hiraganas?
             <Game
               hiraganas ={hiraganas}
               allSoundCats = {allSoundCats}
               arrayOfNumbers ={arrayOfNumbers}
               numOfCards = {numOfCards}
+              handleID = {handleID}
+              setMin = {setMin}
+              setMax = {setMax}
+           
+              max = {max}
+              min = {min}
             />:null}
           </Route>
+
+          <Route path="/main">
+            {hiraganas?
+            <CardPage
+            hiraganas ={hiraganas}
+            allSoundCats = {allSoundCats}
+            arrayOfNumbers = {arrayOfNumbers}
+            />:null}
+          </Route>
+
+          <Route path="/MainMenu">
+            <TitlePage
+        
+            />
+          </Route>
+
+         
 
         </Switch>
       </div>
