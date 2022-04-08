@@ -1,23 +1,22 @@
 import { useState,useRef, useEffect } from "react"
 import CardHiraganaGame from "./CardHiraganaGame"
-import CardHiraganaGameC from "./CardHiraganaGameC"
+import AzzzCardHiraganaGameC from "./AzzzCardHiraganaGameC"
 
-function GameC({
+function AzGameC({
   hiraganas,arrayOfNumbers, 
   handleID, setMin, setMax,
   min, max, outterFunction
 }) {
 
-  console.log(arrayOfNumbers[0])
-
   const [points,setPoints] = useState(0)
   const [currentStreak, setStreak] = useState(0)
   const [miss, setMisses] = useState(0)
   const [textinput, setText] = useState("")
+  const [hiraganaIndex,setHiraganaIndex] = useState(0)
 
   // State
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentHiragana, setCurrentHiragana] = useState(hiraganas[arrayOfNumbers[0]]);
+  const [currentHiragana, setCurrentHiragana] = useState(hiraganas[arrayOfNumbers[hiraganaIndex]-1]);
 
   useEffect(()=> init(),[])
 
@@ -27,44 +26,29 @@ function GameC({
     copyOfHiraganas = [...hiraganas]
   }
 
-  const newCardsFunction = () => {
-    console.log("fired")
-    if(currentStreak > 8){
-      setMin(dogs => dogs + 10)
-      setMax(cats => cats + 10)
-    }
+  const setterOfCurrentHiragana = () =>{
+    setCurrentHiragana(hiraganas[arrayOfNumbers[0]-1])
   }
 
-  const gameFunction = () => { 
-    if(currentHiragana.soundAlpha === textinput){
-      setPoints(dogs => dogs + 1)
-      setStreak(cats => cats + 1)
-    }else{
-      console.log("incorrect")
-      setMisses(dogs => dogs + 1)
-    }
-    setCurrentIndex(dogs => dogs + 1)
-
-    if(arrayOfNumbers.length - 1 < currentIndex){
-      newCardsFunction()
-      handleID()
-      setCurrentIndex(0)
-      setCurrentHiragana(copyOfHiraganas[currentIndex])
-    }else{
-      setCurrentHiragana(copyOfHiraganas[currentIndex])
-    }
-  }
 
   const mapOfOptions = () =>{
-    console.log(copyOfHiraganas)
-    console.log(arrayOfNumbers)
     let temp = (copyOfHiraganas.filter(hira=>arrayOfNumbers.includes(hira.id)))
-    return temp.map(hira=><CardHiraganaGameC key = {`${hira.category}${hira.id}`} outterFunction = {outterFunction} currentHiragana = {currentHiragana} hiragana = {hira}/>)
+    return temp.map(hira=>
+    <AzzzCardHiraganaGameC 
+    key = {`${hira.category}${hira.id}`} 
+    outterFunction = {outterFunction} 
+    currentHiragana = {currentHiragana} 
+    hiragana = {hira}
+    mainCard = {false}
+    setterOfCurrentHiragana = {setterOfCurrentHiragana}
+    />)
   }
 
-
-
-
+  const handleClick = (e) => {
+    setHiraganaIndex(dogs => dogs + 1)
+    setCurrentHiragana(hiraganas[arrayOfNumbers[hiraganaIndex]-1])
+    console.log(hiraganaIndex)
+  }
 
   return (
    <>
@@ -73,7 +57,7 @@ function GameC({
     {arrayOfNumbers}
   </div>
   
-  <div>
+  <div onClick = {handleClick}>
   current index: {currentIndex}
   </div>
 
@@ -101,11 +85,14 @@ function GameC({
   current Streak: {currentStreak}
   </div>
 
-
-
   <div>
     {currentHiragana?
-    <CardHiraganaGame hiragana = {currentHiragana}/>:
+    <AzzzCardHiraganaGameC
+    key = {`${currentHiragana.category}${currentHiragana.id}`}
+    hiragana = {currentHiragana}
+    currentHiragana = {currentHiragana}
+    mainCard = {true}/>
+    :
     null}
   </div>
 
@@ -117,7 +104,35 @@ function GameC({
   );
 }
 
-export default GameC;
+export default AzGameC;
+
+
+// const newCardsFunction = () => {
+//   if(currentStreak > 8){
+//     setMin(dogs => dogs + 10)
+//     setMax(cats => cats + 10)
+//   }
+// }
+
+// const gameFunction = () => { 
+//   if(currentHiragana.soundAlpha === textinput){
+//     setPoints(dogs => dogs + 1)
+//     setStreak(cats => cats + 1)
+//   }else{
+//     console.log("incorrect")
+//     setMisses(dogs => dogs + 1)
+//   }
+//   setCurrentIndex(dogs => dogs + 1)
+
+//   if(arrayOfNumbers.length - 1 < currentIndex){
+//     newCardsFunction()
+//     handleID()
+//     setCurrentIndex(0)
+//     setCurrentHiragana(copyOfHiraganas[currentIndex])
+//   }else{
+//     setCurrentHiragana(copyOfHiraganas[currentIndex])
+//   }
+// }
 
 
 
