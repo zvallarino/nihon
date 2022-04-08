@@ -3,7 +3,7 @@ import CardPage from "./CardPage";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import TitlePage from "./TitlePage";
 import Game from "./Game";
-import GameC from "./GameC";
+import GameC from "./AzGameC";
 
 
 function App() {
@@ -23,16 +23,13 @@ function App() {
   const [arrayOfNumbersC, setNumbersC] = useState(null)
   const [numOfCardsC, setNumberOfCardsC] = useState(4)
 
-  //
-
-
   useEffect(()=>init(),[]);
 
   function init(){
     getSoundCats();
     handleID();
-    outterFunction();
     getHiragana();
+    outterFunction();
   }
 
   function getHiragana(){
@@ -60,10 +57,7 @@ function App() {
   }
 
   function handleIDC(){
-    console.log(setNumbersC)
-    console.log(arrayOfNumbersC)
     setNumbersC(chars())
-    console.log(arrayOfNumbersC)
   }
 
   const newRandom = (x,y,arr) => { 
@@ -78,12 +72,10 @@ function App() {
       return newRandom(x,y,arr)
     }
   }; 
-  
-
 
   const outterFunction = () =>{
-    const numbersArray = [];
-    setNumbersC(newRandom(minC,maxC,numbersArray))
+    const numbers = [];
+    setNumbersC(newRandom(minC,maxC,numbers))
     return
   }
 
