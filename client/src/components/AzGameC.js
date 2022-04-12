@@ -16,7 +16,7 @@ function AzGameC({
 
   // State
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentHiragana, setCurrentHiragana] = useState(hiraganas[arrayOfNumbers[hiraganaIndex]-1]);
+  const currentHiraganaRef = useRef(hiraganas[arrayOfNumbers[hiraganaIndex]-1]);
 
   useEffect(()=> init(),[])
 
@@ -27,7 +27,7 @@ function AzGameC({
   }
 
   const setterOfCurrentHiragana = () =>{
-    setCurrentHiragana(hiraganas[arrayOfNumbers[0]-1])
+    currentHiraganaRef.current = hiraganas[arrayOfNumbers[0]-1]
   }
 
 
@@ -37,7 +37,7 @@ function AzGameC({
     <AzzzCardHiraganaGameC 
     key = {`${hira.category}${hira.id}`} 
     outterFunction = {outterFunction} 
-    currentHiragana = {currentHiragana} 
+    currentHiragana = {currentHiraganaRef.current} 
     hiragana = {hira}
     mainCard = {false}
     setterOfCurrentHiragana = {setterOfCurrentHiragana}
@@ -46,7 +46,7 @@ function AzGameC({
 
   const handleClick = (e) => {
     setHiraganaIndex(dogs => dogs + 1)
-    setCurrentHiragana(hiraganas[arrayOfNumbers[hiraganaIndex]-1])
+    currentHiraganaRef.current = hiraganas[arrayOfNumbers[hiraganaIndex]-1]
     console.log(hiraganaIndex)
   }
 
@@ -62,7 +62,7 @@ function AzGameC({
   </div>
 
   <div>
-    {currentHiragana?currentHiragana.soundAlpha:null}
+    {currentHiraganaRef?currentHiraganaRef.current.soundAlpha:null}
   </div>
 
   <div>
@@ -86,18 +86,18 @@ function AzGameC({
   </div>
 
   <div>
-    {currentHiragana?
+    {currentHiraganaRef.current?
     <AzzzCardHiraganaGameC
-    key = {`${currentHiragana.category}${currentHiragana.id}`}
-    hiragana = {currentHiragana}
-    currentHiragana = {currentHiragana}
+    key = {`${currentHiraganaRef.current.category}${currentHiraganaRef.current.id}`}
+    hiragana = {currentHiraganaRef.current}
+    currentHiragana = {currentHiraganaRef.current}
     mainCard = {true}/>
     :
     null}
   </div>
 
   <div>
-    {currentHiragana?
+    {currentHiraganaRef.current?
     mapOfOptions():null}
   </div>
    </>
